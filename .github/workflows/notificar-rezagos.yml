@@ -1,0 +1,19 @@
+name: Notificar equipos rezagados
+
+on:
+  schedule:
+    - cron: "0 15 * * *" # 9:00 a. m. hora de Mérida (UTC-6)
+  workflow_dispatch:
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install firebase-admin
+      - run: node scripts/notificar-rezagos.mjs
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}

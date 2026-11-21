@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function esUsuario() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/usuarios/$(request.auth.token.email));
+    }
+    function esAdmin() {
+      return esUsuario()
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.token.email)).data.rol == 'admin';
+    }
+
+    // Lista de personas autorizadas. El ID del documento es el correo en minúsculas.
+    match /usuarios/{correo} {
+      allow read: if request.auth != null && (request.auth.token.email == correo || esAdmin());
+      allow write: if esAdmin();
+    }
+
+    match /equipos/{equipo} {
+      allow read, write: if esUsuario();
+      match /notas/{nota} {
+        allow read: if esUsuario();
+        allow create: if esUsuario() && request.resource.data.autorUid == request.auth.uid;
+        allow update, delete: if esUsuario() && resource.data.autorUid == request.auth.uid;
+      }
+    }
+  }
+}

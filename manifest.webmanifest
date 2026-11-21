@@ -1,0 +1,9 @@
+{
+  "name": "Bitácora de equipos",
+  "short_name": "Bitácora",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#e9ece7",
+  "theme_color": "#1d2a26",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
