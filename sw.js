@@ -1,4 +1,4 @@
-const C = "bitacora-v49";
+const C = "bitacora-v50";
 const SHELL = ["./", "./index.html", "./app.js", "./firebase-config.js", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", (e) => {
@@ -41,6 +41,7 @@ self.addEventListener("push", (e) => {
     self.registration.showNotification(titulo, {
       body: cuerpo,
       icon: "./icon.svg",
+      badge: "./icon.svg",
       tag: "bitacora-rezago",
     })
   );
